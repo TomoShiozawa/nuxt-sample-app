@@ -38,7 +38,8 @@ export const actions = {
       leadership: busho.leadership,
       valor: busho.valor,
       intelligence: busho.intelligence,
-      politics: busho.politics
+      politics: busho.politics,
+      biography: busho.biography
     })
     dispatch('fetchBushos')
   }

@@ -12,6 +12,20 @@
     </div>
     <div>
       <v-data-table :headers="headers" :items="bushos" :items-per-page="20">
+        <template v-slot:[`item.biography`]="{ item }">
+          <v-expansion-panels class="biography" flat hover tile>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                <div class="text-truncate">
+                  {{ item.biography }}
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                {{ item.biography }}
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small @click.stop="editItem(item)">
             mdi-pencil
@@ -58,6 +72,15 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
+              <v-row>
+                <v-col sm="12">
+                  <v-textarea
+                    v-model="editedBusho.biography"
+                    auto-grow
+                    label="Biography"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card-text>
 
@@ -83,6 +106,7 @@ export default {
         { text: 'Valor', value: 'valor' },
         { text: 'Intelligence', value: 'intelligence' },
         { text: 'Politics', value: 'politics' },
+        { text: 'Biography', value: 'biography' },
         { text: 'Actions', value: 'actions' }
       ],
       editedBusho: {
@@ -91,7 +115,8 @@ export default {
         leadership: 0,
         valor: 0,
         intelligence: 0,
-        politics: 0
+        politics: 0,
+        biography: ''
       },
       editedIndex: -1
     }
@@ -123,3 +148,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.biography {
+  max-width: 300px;
+}
+</style>
