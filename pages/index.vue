@@ -13,7 +13,7 @@
     <div>
       <v-data-table :headers="headers" :items="bushos" :items-per-page="20">
         <template v-slot:[`item.biography`]="{ item }">
-          <v-expansion-panels class="biography" flat hover tile>
+          <v-expansion-panels :style="{ 'max-width': '300px' }" flat hover tile>
             <v-expansion-panel>
               <v-expansion-panel-header>
                 <div class="text-truncate">
