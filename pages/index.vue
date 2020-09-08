@@ -11,7 +11,26 @@
       </h1>
     </div>
     <div>
-      <v-data-table :headers="headers" :items="bushos" :items-per-page="20">
+      <v-data-table
+        :headers="headers"
+        :items="bushos"
+        :items-per-page="20"
+        :search="search"
+      >
+        <template v-slot:top>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <h1>Busho Table</h1>
+            </v-col>
+            <v-col cols="12" sm="8">
+              <v-text-field
+                v-model="search"
+                label="Search"
+                prepend-inner-icon="mdi-magnify"
+              />
+            </v-col>
+          </v-row>
+        </template>
         <template v-slot:[`item.biography`]="{ item }">
           <div class="biography">
             <v-expansion-panels flat hover tile>
@@ -102,6 +121,7 @@ export default {
   data() {
     return {
       dialog: false,
+      search: '',
       headers: [
         { text: 'Name', value: 'name' },
         { text: 'Leadership', value: 'leadership' },
