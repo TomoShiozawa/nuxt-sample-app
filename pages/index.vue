@@ -13,18 +13,20 @@
     <div>
       <v-data-table :headers="headers" :items="bushos" :items-per-page="20">
         <template v-slot:[`item.biography`]="{ item }">
-          <v-expansion-panels :style="{ 'max-width': '300px' }" flat hover tile>
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                <div class="text-truncate">
+          <div class="biography">
+            <v-expansion-panels flat hover tile>
+              <v-expansion-panel>
+                <v-expansion-panel-header>
+                  <div class="text-truncate">
+                    {{ item.biography }}
+                  </div>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
                   {{ item.biography }}
-                </div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                {{ item.biography }}
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </div>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small @click.stop="editItem(item)">
