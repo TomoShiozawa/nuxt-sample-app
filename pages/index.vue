@@ -18,18 +18,22 @@
         :search="search"
       >
         <template v-slot:top>
-          <v-row>
-            <v-col cols="12" sm="4">
-              <h1>Busho Table</h1>
-            </v-col>
-            <v-col cols="12" sm="8">
-              <v-text-field
-                v-model="search"
-                label="Search"
-                prepend-inner-icon="mdi-magnify"
-              />
-            </v-col>
-          </v-row>
+          <v-toolbar>
+            <v-toolbar-title>
+              Busho
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="search"
+              placeholder="Search"
+              prepend-inner-icon="mdi-magnify"
+              dense
+            />
+            <v-spacer></v-spacer>
+            <v-btn color="primary">
+              New Busho
+            </v-btn>
+          </v-toolbar>
         </template>
         <template v-slot:[`item.biography`]="{ item }">
           <div class="biography">
