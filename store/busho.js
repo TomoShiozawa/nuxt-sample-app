@@ -31,7 +31,10 @@ export const actions = {
         console.error(err)
       })
   },
-  async updateBusho({ dispatch }, busho) {
+  async updateBusho({ dispatch, rootGetters }, busho) {
+    if (!rootGetters['firebaseAuth/getUserUid']) {
+      return
+    }
     const updatedBusho = bushosCollection.doc(busho.id)
     await updatedBusho.update({
       name: busho.name,
@@ -41,6 +44,13 @@ export const actions = {
       politics: busho.politics,
       biography: busho.biography
     })
+    dispatch('fetchBushos')
+  },
+  async createBusho({ dispatch, rootGetters }, busho) {
+    if (!rootGetters['firebaseAuth/getUserUid']) {
+      return
+    }
+    await bushosCollection.add(busho)
     dispatch('fetchBushos')
   }
 }
