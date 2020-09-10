@@ -2,7 +2,8 @@ import firebase from '~/plugins/firebase'
 
 export const state = () => ({
   userUid: '',
-  userDisplayName: ''
+  userDisplayName: '',
+  isAuthenticated: false
 })
 
 export const mutations = {
@@ -11,6 +12,12 @@ export const mutations = {
   },
   setUserDisplayName(state, displayName) {
     state.userDisplayName = displayName
+  },
+  authenticate(state) {
+    state.isAuthenticated = true
+  },
+  unauthenticate(state) {
+    state.isAuthenticated = false
   }
 }
 
@@ -24,6 +31,7 @@ export const actions = {
         const user = result.user
         context.commit('setUserUid', user.uid)
         context.commit('setUserDisplayName', user.displayName)
+        context.commit('authenticate')
       })
       .catch((error) => {
         console.error(error)
@@ -36,15 +44,16 @@ export const actions = {
       .then(() => {
         context.commit('setUserUid', '')
         context.commit('setUserDisplayName', '')
+        context.commit('unauthenticate')
       })
   },
   authCheck({ commit, dispatch }) {
     return new Promise((resolve) => {
-      firebase.auth().onAuthStateChanged(async (user) => {
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           commit('setUserUid', user.uid)
           commit('setUserDisplayName', user.displayName)
-          await dispatch('busho/fetchBushos', null, { root: true })
+          commit('authenticate')
         }
         resolve()
       })
@@ -58,5 +67,8 @@ export const getters = {
   },
   getUserDisplayName(state) {
     return state.userDisplayName
+  },
+  isAuthenticated(state) {
+    return state.isAuthenticated
   }
 }
