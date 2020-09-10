@@ -1,6 +1,6 @@
 # nuxt_app
 
-> My flawless Nuxt.js project
+Busho Editable Table
 
 ## Build Setup
 
