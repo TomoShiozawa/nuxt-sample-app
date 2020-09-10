@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!this.$store.getters['firebaseAuth/getUserUid']">
+    <div v-if="!this.$store.getters['firebaseAuth/isAuthenticated']">
       <v-btn @click="login">
         ログイン
       </v-btn>
@@ -213,7 +213,14 @@ export default {
         politics: 0,
         biography: ''
       },
-      newBusho: {},
+      newBusho: {
+        name: '',
+        leadership: 0,
+        valor: 0,
+        intelligence: 0,
+        politics: 0,
+        biography: ''
+      },
       editedIndex: -1
     }
   },
@@ -224,16 +231,20 @@ export default {
   },
   async created() {
     await this.$store.dispatch('firebaseAuth/authCheck')
+    if (this.$store.getters['firebaseAuth/isAuthenticated']) {
+      await this.$store.dispatch('busho/fetchBushos')
+    }
   },
   methods: {
     async login() {
       await this.$store.dispatch('firebaseAuth/login')
-      if (this.$store.getters['firebaseAuth/getUserUid']) {
+      if (this.$store.getters['firebaseAuth/isAuthenticated']) {
         await this.$store.dispatch('busho/fetchBushos')
       }
     },
     async logout() {
       await this.$store.dispatch('firebaseAuth/logout')
+      this.$store.dispatch('busho/clearBushos')
     },
     editItem(busho) {
       this.editedBusho = Object.assign({}, busho)
@@ -249,7 +260,14 @@ export default {
     create() {
       this.$store.dispatch('busho/createBusho', this.newBusho)
       this.createDialog = false
-      this.newBusho = {}
+      this.newBusho = {
+        name: '',
+        leadership: 0,
+        valor: 0,
+        intelligence: 0,
+        politics: 0,
+        biography: ''
+      }
     },
     cancelCreate() {
       this.createDialog = false
