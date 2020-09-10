@@ -271,7 +271,14 @@ export default {
     },
     cancelCreate() {
       this.createDialog = false
-      this.newBusho = {}
+      this.newBusho = {
+        name: '',
+        leadership: 0,
+        valor: 0,
+        intelligence: 0,
+        politics: 0,
+        biography: ''
+      }
     }
   }
 }
