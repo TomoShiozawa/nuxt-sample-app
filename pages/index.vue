@@ -9,6 +9,9 @@
       <h1>
         こんにちは、{{ this.$store.getters['firebaseAuth/getUserDisplayName'] }}
       </h1>
+      <v-btn @click="logout">
+        ログアウト
+      </v-btn>
     </div>
     <div>
       <v-data-table
@@ -219,12 +222,18 @@ export default {
       return this.$store.getters['busho/getBushos']
     }
   },
+  async created() {
+    await this.$store.dispatch('firebaseAuth/authCheck')
+  },
   methods: {
     async login() {
       await this.$store.dispatch('firebaseAuth/login')
       if (this.$store.getters['firebaseAuth/getUserUid']) {
         await this.$store.dispatch('busho/fetchBushos')
       }
+    },
+    async logout() {
+      await this.$store.dispatch('firebaseAuth/logout')
     },
     editItem(busho) {
       this.editedBusho = Object.assign({}, busho)

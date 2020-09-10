@@ -20,14 +20,35 @@ export const actions = {
     return firebase
       .auth()
       .signInWithPopup(provider)
-      .then(function(result) {
+      .then((result) => {
         const user = result.user
         context.commit('setUserUid', user.uid)
         context.commit('setUserDisplayName', user.displayName)
       })
-      .catch(function(error) {
+      .catch((error) => {
         console.error(error)
       })
+  },
+  logout(context) {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        context.commit('setUserUid', '')
+        context.commit('setUserDisplayName', '')
+      })
+  },
+  authCheck({ commit, dispatch }) {
+    return new Promise((resolve) => {
+      firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+          commit('setUserUid', user.uid)
+          commit('setUserDisplayName', user.displayName)
+          await dispatch('busho/fetchBushos', null, { root: true })
+        }
+        resolve()
+      })
+    })
   }
 }
 
