@@ -46,6 +46,9 @@ export const actions = {
   async createBusho({ dispatch }, busho) {
     await bushosCollection.add(busho)
     dispatch('fetchBushos')
+  },
+  clearBushos({ commit }) {
+    commit('clearBushos')
   }
 }
 
