@@ -30,9 +30,6 @@
               dense
             />
             <v-spacer></v-spacer>
-            <!-- <v-btn color="primary">
-              New Busho
-            </v-btn> -->
             <v-dialog v-model="createDialog" width="500">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="primary" v-bind="attrs" v-on="on">
