@@ -123,6 +123,9 @@
           <v-icon small @click.stop="editItem(item)">
             mdi-pencil
           </v-icon>
+          <v-icon small @click.stop="showDeleteDialog(item)">
+            mdi-delete
+          </v-icon>
         </template>
       </v-data-table>
       <v-dialog v-model="dialog" max-width="500px">
@@ -184,6 +187,29 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="deleteDialog" max-width="500px">
+        <v-card>
+          <v-card-title>
+            <span class="headline"> Delete '{{ deletedBusho.name }}' </span>
+          </v-card-title>
+
+          <v-card-text>
+            <div>
+              Are you sure you want to delete '{{ deletedBusho.name }}' ?
+            </div>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="cancelDelete">
+              Cancel
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="deleteBusho">
+              Delete
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </div>
 </template>
@@ -194,6 +220,7 @@ export default {
     return {
       dialog: false,
       createDialog: false,
+      deleteDialog: false,
       search: '',
       headers: [
         { text: 'Name', value: 'name' },
@@ -221,6 +248,7 @@ export default {
         politics: 0,
         biography: ''
       },
+      deletedBusho: {},
       editedIndex: -1
     }
   },
@@ -279,6 +307,17 @@ export default {
         politics: 0,
         biography: ''
       }
+    },
+    showDeleteDialog(busho) {
+      this.deletedBusho = busho
+      this.deleteDialog = true
+    },
+    deleteBusho() {
+      this.$store.dispatch('busho/deleteBusho', this.deletedBusho)
+      this.deleteDialog = false
+    },
+    cancelDelete() {
+      this.deleteDialog = false
     }
   }
 }

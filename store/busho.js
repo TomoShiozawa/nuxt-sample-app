@@ -47,6 +47,11 @@ export const actions = {
     await bushosCollection.add(busho)
     dispatch('fetchBushos')
   },
+  async deleteBusho({ dispatch }, busho) {
+    const deletedBusho = bushosCollection.doc(busho.id)
+    await deletedBusho.delete()
+    dispatch('fetchBushos')
+  },
   clearBushos({ commit }) {
     commit('clearBushos')
   }
